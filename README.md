@@ -91,17 +91,32 @@ SlotSwapper is a full-stack web application that allows users to:
 ### MongoDB Atlas Setup
 1. Create a free MongoDB Atlas account at https://www.mongodb.com/cloud/atlas
 2. Create a new cluster (M0 free tier)
-3. Create a database user with read/write permissions
-4. Add your IP address to the whitelist
-5. Get the connection string from the "Connect" button
+3. Create a database user with read/write permissions:
+   - Go to "Database Access" in the left sidebar
+   - Click "Add New Database User"
+   - Choose "Password" as the authentication method
+   - Enter a username and strong password
+   - Set user privileges to "Atlas Admin" or "Read and write to any database"
+4. Add your IP address to the whitelist:
+   - Go to "Network Access" in the left sidebar
+   - Click "Add IP Address"
+   - For testing, you can use "Allow Access from Anywhere" (0.0.0.0/0)
+   - For production, add only specific IP addresses
+5. Get the connection string:
+   - Go to "Clusters" in the left sidebar
+   - Click "Connect" on your cluster
+   - Choose "Connect your application"
+   - Copy the connection string
+   - Replace `<password>` with your actual password
+   - Example: `mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/slotswapper?retryWrites=true&w=majority`
 
 ### Backend Deployment (Render)
 1. Sign up at https://render.com/
 2. Create a new Web Service
 3. Connect your GitHub repository
 4. Set the following environment variables:
-   - `MONGO_URI`: Your MongoDB Atlas connection string
-   - `JWT_SECRET`: A strong secret key
+   - `MONGO_URI`: Your MongoDB Atlas connection string (make sure to use the actual password, not `<password>`)
+   - `JWT_SECRET`: A strong secret key (generate a random string)
    - `NODE_ENV`: production
 5. Set build command: `npm install`
 6. Set start command: `npm start`
@@ -125,6 +140,21 @@ This project includes a `vercel.json` file that configures the build process for
 - The frontend is built correctly from the `frontend` directory
 - Static assets are served properly
 - The build output is directed to the correct directory
+
+## Troubleshooting
+
+### MongoDB Connection Issues
+If you see "Error: bad auth : authentication failed":
+1. Double-check your `MONGO_URI` environment variable
+2. Ensure the username and password are correct
+3. Make sure the IP address is whitelisted in MongoDB Atlas
+4. Verify the cluster URL is correct
+
+### Vercel Deployment Issues
+If the frontend build fails:
+1. Ensure the `vercel.json` file is in the root directory
+2. Check that the build and output directories are correctly specified
+3. Verify environment variables are set correctly
 
 ## Known Issues and Assumptions
 

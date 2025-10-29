@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
@@ -10,6 +11,9 @@ const { protect } = require('./middleware/authMiddleware');
 
 // Load environment variables
 dotenv.config();
+
+// Set Mongoose strictQuery option to suppress deprecation warning
+mongoose.set('strictQuery', true);
 
 // Connect to database
 connectDB();
