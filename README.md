@@ -128,26 +128,33 @@ SlotSwapper is a full-stack web application that allows users to:
 3. Connect your GitHub repository
 4. Configure the project:
    - Framework: Create React App
-   - Root Directory: Leave as default (root)
-   - Install Command: Leave as default
-   - Build Command: Leave as default
-   - Output Directory: Leave as default
+   - Root Directory: `frontend`
+   - Install Command: `npm install`
+   - Build Command: `npm run build`
+   - Output Directory: `build`
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
 
 ### Vercel Configuration
-This project includes a `vercel.json` file that configures the build process for deployment. The configuration ensures that:
-- The frontend is built correctly from the `frontend` directory
-- Static assets are served properly
-- The build output is directed to the correct directory
+This project now uses a minimal `vercel.json` configuration that allows Vercel to automatically detect and configure the project:
 
-The specific configuration used by Vercel is:
-- **Build Source**: `frontend/package.json` (points directly to the frontend's package.json)
-- **Builder**: `@vercel/static-build` (uses Vercel's static build system)
-- **Distribution Directory**: `build` (relative to the frontend directory)
-- **Routes**: Configures routing to serve files from the frontend build directory
+```json
+{
+  "version": 2,
+  "github": {
+    "silent": true
+  }
+}
+```
 
-This approach directly specifies the frontend's package.json as the build source and uses Vercel's static build system, which should avoid the permission issues with react-scripts.
+When deploying to Vercel, the following settings should be used:
+- **Framework**: Create React App
+- **Root Directory**: `frontend` (explicitly set to the frontend directory)
+- **Install Command**: `npm install`
+- **Build Command**: `npm run build`
+- **Output Directory**: `build`
+
+By explicitly setting the Root Directory to `frontend`, Vercel will operate from within the frontend directory and should properly detect and build the Create React App project without permission issues.
 
 ## Troubleshooting
 
