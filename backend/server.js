@@ -20,6 +20,8 @@ connectDB();
 
 // Initialize app
 const app = express();
+
+// Make sure we're using the PORT environment variable from Render
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -44,7 +46,22 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Start server
-app.listen(PORT, () => {
+// Start server and log the actual port it's listening on
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`PORT environment variable: ${process.env.PORT || 'not set, using default 5000'}`);
+});
+
+// Handle server errors
+server.on('error', (err) => {
+  console.error('Server error:', err);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated');
+  });
 });
