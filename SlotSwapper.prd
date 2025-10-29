@@ -1,0 +1,171 @@
+# 🧩 Product Requirements Document — *SlotSwapper*
+
+## 1. Product Overview
+
+**Product Name:** SlotSwapper  
+**Purpose:** A peer-to-peer calendar app where users can mark busy slots as _swappable_ and exchange them with other users.  
+**Goal:** Streamline collaborative scheduling by allowing real-time event swaps across users.  
+**Primary Users:** Professionals, teams, or individuals managing overlapping schedules.
+
+---
+
+## 2. Core Objectives
+
+- Enable users to manage personal events.
+- Allow marking and viewing _swappable_ slots.
+- Implement secure peer-to-peer swap requests and approvals.
+- Reflect updates in calendars dynamically.
+
+---
+
+## 3. Key Features
+
+### A. Authentication
+
+- **Signup/Login** with name, email, and password.
+- **JWT-based session management** (Bearer Token in headers).
+- Secure password hashing (bcrypt or Argon2).
+
+### B. Calendar Management
+
+- CRUD for user events: `title`, `startTime`, `endTime`, `status`, `userId`.
+- Status options:
+  - `BUSY`
+  - `SWAPPABLE`
+  - `SWAP_PENDING`
+- Events visible only to the owner except swappable ones.
+
+### C. Slot Swapping Logic (Core)
+
+**Endpoints:**
+
+1. `GET /api/swappable-slots`
+   - Returns other users’ swappable slots (excluding requester’s).
+
+2. `POST /api/swap-request`
+   - Body: `{ mySlotId, theirSlotId }`
+   - Validates both slots are `SWAPPABLE`.
+   - Creates a `SwapRequest` (status: `PENDING`).
+   - Updates both slots → `SWAP_PENDING`.
+
+3. `POST /api/swap-response/:requestId`
+   - Body: `{ accept: boolean }`
+   - If rejected → slots revert to `SWAPPABLE`.
+   - If accepted → swap slot ownerships and mark both `BUSY`.
+
+---
+
+## 4. Frontend Requirements
+
+### Authentication Pages
+
+- **Signup/Login Forms**
+- Token stored in secure storage (e.g., HttpOnly cookie or localStorage).
+
+### Dashboard / Calendar View
+
+- View, add, edit, or delete events.
+- Toggle “Make Swappable” button.
+- Dynamic refresh on event update.
+
+### Marketplace View
+
+- Displays all swappable slots (excluding user’s own).
+- Each slot → “Request Swap” button.
+- Opens modal showing user’s available swappable slots for offer.
+
+### Notifications / Requests View
+
+- **Incoming Requests:** With “Accept” or “Reject” buttons.
+- **Outgoing Requests:** Shows “Pending” / “Accepted” / “Rejected”.
+- Instant state refresh after any swap action.
+
+---
+
+## 5. Tech Stack
+
+| Layer      | Recommended Tools                             |
+| ---------- | --------------------------------------------- |
+| Frontend   | React + TypeScript (Vite or Next.js optional) |
+| Backend    | Node.js (Express / NestJS)                    |
+| Database   | PostgreSQL / MongoDB                          |
+| Auth       | JWT + bcrypt                                  |
+| State Mgmt | Redux / React Query                           |
+| Deployment | Vercel (frontend), Render/Heroku (backend)    |
+| Optional   | Docker, WebSockets, Jest for testing          |
+
+---
+
+## 6. Data Model
+
+### **User**
+
+| Field        | Type   |
+| ------------ | ------ |
+| id           | UUID   |
+| name         | String |
+| email        | String |
+| passwordHash | String |
+
+### **Event**
+
+| Field     | Type                                |
+| --------- | ----------------------------------- |
+| id        | UUID                                |
+| title     | String                              |
+| startTime | DateTime                            |
+| endTime   | DateTime                            |
+| status    | Enum(BUSY, SWAPPABLE, SWAP_PENDING) |
+| userId    | FK(User)                            |
+
+### **SwapRequest**
+
+| Field       | Type                              |
+| ----------- | --------------------------------- |
+| id          | UUID                              |
+| requesterId | FK(User)                          |
+| responderId | FK(User)                          |
+| mySlotId    | FK(Event)                         |
+| theirSlotId | FK(Event)                         |
+| status      | Enum(PENDING, ACCEPTED, REJECTED) |
+
+---
+
+## 7. System Flow
+
+1. **User creates event →** marks swappable.
+2. **Other users fetch swappable slots →** initiate swap request.
+3. **Receiver accepts/rejects →** calendar updates accordingly.
+4. **State syncs dynamically** (API re-fetch / WebSocket).
+
+---
+
+## 8. Bonus Features
+
+- **WebSocket Notifications** for instant updates.
+- **Unit Tests** for swap logic and auth routes.
+- **Docker Setup** for local dev.
+- **CI/CD** integration via GitHub Actions.
+
+---
+
+## 9. Deliverables
+
+- Public GitHub repo.
+- `README.md` including:
+  - Overview, setup guide, endpoints.
+  - Screenshots (if frontend ready).
+  - Known issues and assumptions.
+- Optional deployed link.
+
+---
+
+## 10. Timeline (suggested)
+
+| Phase   | Tasks                          |
+| ------- | ------------------------------ |
+| Phase 1 | Backend setup, Auth, DB schema |
+| Phase 2 | Core APIs (CRUD, Swap logic)   |
+| Phase 3 | Frontend UI (Auth, Dashboard)  |
+| Phase 4 | Marketplace & Notifications    |
+| Phase 5 | Testing + Deployment           |
