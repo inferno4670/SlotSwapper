@@ -3,19 +3,7 @@
   "github": {
     "silent": true
   },
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/build"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "^(?!/api/)/(.*)$",
-      "dest": "/frontend/$1"
-    }
-  ]
+  "outputDirectory": "frontend/build",
+  "installCommand": "cd frontend && npm install",
+  "buildCommand": "cd frontend && npm run prebuild && CI=false npm run build"
 }
