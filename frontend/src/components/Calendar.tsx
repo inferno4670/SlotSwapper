@@ -24,9 +24,17 @@ const Calendar: React.FC = () => {
     try {
       const data = await getEvents();
       setEvents(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch events:', error);
-      alert('Failed to fetch events. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to fetch events. Please try again.');
+      }
     }
   };
 
@@ -43,9 +51,17 @@ const Calendar: React.FC = () => {
       setEndTime('');
       setStatus('BUSY');
       fetchEvents();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create event:', error);
-      alert('Failed to create event. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to create event. Please try again.');
+      }
     }
   };
 
@@ -54,9 +70,17 @@ const Calendar: React.FC = () => {
       const newStatus = currentStatus === 'SWAPPABLE' ? 'BUSY' : 'SWAPPABLE';
       await updateEvent(id, '', '', '', newStatus);
       fetchEvents();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to toggle swappable status:', error);
-      alert('Failed to update event. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to update event. Please try again.');
+      }
     }
   };
 
@@ -68,9 +92,17 @@ const Calendar: React.FC = () => {
     try {
       await deleteEvent(id);
       fetchEvents();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to delete event:', error);
-      alert('Failed to delete event. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to delete event. Please try again.');
+      }
     }
   };
 

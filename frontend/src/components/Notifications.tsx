@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserSwapRequests } from '../services/swapService';
+import { getUserSwapRequests, acceptSwapRequest, rejectSwapRequest } from '../services/swapService';
 
 interface User {
   _id: string;
@@ -43,6 +43,29 @@ const Notifications: React.FC = () => {
       setNotifications(pendingRequests);
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
+      alert('Failed to fetch notifications. Please try again.');
+    }
+  };
+
+  const handleAccept = async (requestId: string) => {
+    try {
+      await acceptSwapRequest(requestId);
+      alert('Swap request accepted!');
+      fetchNotifications(); // Refresh the notifications
+    } catch (error) {
+      console.error('Failed to accept swap request:', error);
+      alert('Failed to accept swap request. Please try again.');
+    }
+  };
+
+  const handleReject = async (requestId: string) => {
+    try {
+      await rejectSwapRequest(requestId);
+      alert('Swap request rejected.');
+      fetchNotifications(); // Refresh the notifications
+    } catch (error) {
+      console.error('Failed to reject swap request:', error);
+      alert('Failed to reject swap request. Please try again.');
     }
   };
 
@@ -70,10 +93,16 @@ const Notifications: React.FC = () => {
                     {new Date(notification.mySlotId.startTime).toLocaleString()} ↔ {new Date(notification.theirSlotId.startTime).toLocaleString()}
                   </p>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-sm btn-success">
+                    <button 
+                      className="btn btn-sm btn-success"
+                      onClick={() => handleAccept(notification._id)}
+                    >
                       Accept
                     </button>
-                    <button className="btn btn-sm btn-error">
+                    <button 
+                      className="btn btn-sm btn-error"
+                      onClick={() => handleReject(notification._id)}
+                    >
                       Reject
                     </button>
                   </div>

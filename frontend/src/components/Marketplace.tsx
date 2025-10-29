@@ -45,9 +45,17 @@ const Marketplace: React.FC = () => {
     try {
       const data = await getSwappableSlots();
       setEvents(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch events:', error);
-      alert('Failed to fetch events. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to fetch events. Please try again.');
+      }
     }
   };
 
@@ -55,9 +63,17 @@ const Marketplace: React.FC = () => {
     try {
       const data = await getUserSwapRequests();
       setSwapRequests(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to fetch swap requests:', error);
-      alert('Failed to fetch swap requests. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to fetch swap requests. Please try again.');
+      }
     }
   };
 
@@ -71,9 +87,17 @@ const Marketplace: React.FC = () => {
       await createSwapRequest(selectedEventId, eventId);
       fetchSwapRequests();
       alert('Swap request sent successfully!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to request swap:', error);
-      alert('Failed to request swap. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to request swap. Please try again.');
+      }
     }
   };
 
@@ -83,9 +107,17 @@ const Marketplace: React.FC = () => {
       fetchSwapRequests();
       fetchEvents();
       alert('Swap accepted successfully!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to accept swap:', error);
-      alert('Failed to accept swap. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to accept swap. Please try again.');
+      }
     }
   };
 
@@ -94,9 +126,17 @@ const Marketplace: React.FC = () => {
       await rejectSwapRequest(swapId);
       fetchSwapRequests();
       alert('Swap rejected.');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to reject swap:', error);
-      alert('Failed to reject swap. Please try again.');
+      // Check if it's an auth error
+      if (error.response && error.response.status === 401) {
+        // Token might be invalid, redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/login';
+      } else {
+        alert('Failed to reject swap. Please try again.');
+      }
     }
   };
 

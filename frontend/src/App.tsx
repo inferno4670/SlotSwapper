@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -6,13 +6,20 @@ import Calendar from './components/Calendar';
 import Marketplace from './components/Marketplace';
 import Notifications from './components/Notifications';
 import ThemeToggle from './components/ThemeToggle';
-import './App.css';
 
 function App() {
-  const [isAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  
+  useEffect(() => {
+    // Check authentication status on app load
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    setIsAuthenticated(false);
     window.location.href = '/login';
   };
 

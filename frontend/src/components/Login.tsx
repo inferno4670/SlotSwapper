@@ -11,9 +11,14 @@ const Login: React.FC = () => {
     try {
       await login(email, password);
       window.location.href = '/dashboard';
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login failed:', error);
-      alert('Login failed. Please check your credentials.');
+      // Check if it's a specific error message from the server
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(`Login failed: ${error.response.data.message}`);
+      } else {
+        alert('Login failed. Please check your credentials.');
+      }
     }
   };
 

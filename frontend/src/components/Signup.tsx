@@ -13,9 +13,14 @@ const Signup: React.FC = () => {
       await signup(name, email, password);
       alert('Signup successful! Please login.');
       window.location.href = '/login';
-    } catch (error) {
+    } catch (error: any) {
       console.error('Signup failed:', error);
-      alert('Signup failed. Please try again.');
+      // Check if it's a specific error message from the server
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(`Signup failed: ${error.response.data.message}`);
+      } else {
+        alert('Signup failed. Please try again.');
+      }
     }
   };
 

@@ -144,8 +144,9 @@ This project uses explicit install and build commands in vercel.json to handle t
   "github": {
     "silent": true
   },
+  "outputDirectory": "frontend/build",
   "installCommand": "cd frontend && npm install",
-  "buildCommand": "cd frontend && npm run build"
+  "buildCommand": "cd frontend && npm run prebuild && CI=false npm run build"
 }
 ```
 
