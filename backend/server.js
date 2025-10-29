@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -28,6 +29,16 @@ app.use('/api', protect, swapRoutes);
 app.get('/', (req, res) => {
   res.send('SlotSwapper Backend API');
 });
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('frontend/build'));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
 
 // Start server
 app.listen(PORT, () => {

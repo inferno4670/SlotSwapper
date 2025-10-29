@@ -86,6 +86,35 @@ SlotSwapper is a full-stack web application that allows users to:
 - `POST /api/swap-request` - Create swap request
 - `POST /api/swap-response/:requestId` - Respond to swap request
 
+## Deployment
+
+### MongoDB Atlas Setup
+1. Create a free MongoDB Atlas account at https://www.mongodb.com/cloud/atlas
+2. Create a new cluster (M0 free tier)
+3. Create a database user with read/write permissions
+4. Add your IP address to the whitelist
+5. Get the connection string from the "Connect" button
+
+### Backend Deployment (Render)
+1. Sign up at https://render.com/
+2. Create a new Web Service
+3. Connect your GitHub repository
+4. Set the following environment variables:
+   - `MONGO_URI`: Your MongoDB Atlas connection string
+   - `JWT_SECRET`: A strong secret key
+   - `NODE_ENV`: production
+5. Set build command: `npm install`
+6. Set start command: `npm start`
+
+### Frontend Deployment (Vercel)
+1. Sign up at https://vercel.com/
+2. Create a new project
+3. Connect your GitHub repository
+4. Set the following environment variables:
+   - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
+5. Set build command: `npm run build`
+6. Set output directory: `build`
+
 ## Known Issues and Assumptions
 
 1. The application assumes a MongoDB database is available
