@@ -125,8 +125,31 @@ const respondToSwapRequest = async (req, res) => {
   }
 };
 
+// Get swap requests for the user (both as requester and responder)
+const getUserSwapRequests = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const requests = await SwapRequest.find({
+      $or: [
+        { requesterId: userId },
+        { responderId: userId }
+      ]
+    })
+    .populate('requesterId', 'name')
+    .populate('responderId', 'name')
+    .populate('mySlotId')
+    .populate('theirSlotId');
+
+    res.json(requests);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getSwappableSlots,
   createSwapRequest,
-  respondToSwapRequest
+  respondToSwapRequest,
+  getUserSwapRequests
 };

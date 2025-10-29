@@ -6,14 +6,26 @@ export const getSwappableSlots = async () => {
   return response.data;
 };
 
+// Get user's swap requests
+export const getUserSwapRequests = async () => {
+  const response = await api.get('/my-requests');
+  return response.data;
+};
+
 // Create swap request
 export const createSwapRequest = async (mySlotId: string, theirSlotId: string) => {
   const response = await api.post('/swap-request', { mySlotId, theirSlotId });
   return response.data;
 };
 
-// Respond to swap request
-export const respondToSwapRequest = async (requestId: string, accept: boolean) => {
-  const response = await api.post(`/swap-response/${requestId}`, { accept });
+// Accept swap request
+export const acceptSwapRequest = async (requestId: string) => {
+  const response = await api.post(`/swap-response/${requestId}`, { accept: true });
+  return response.data;
+};
+
+// Reject swap request
+export const rejectSwapRequest = async (requestId: string) => {
+  const response = await api.post(`/swap-response/${requestId}`, { accept: false });
   return response.data;
 };

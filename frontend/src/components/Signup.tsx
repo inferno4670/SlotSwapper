@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { signup } from '../services/authService';
+import { Link } from 'react-router-dom';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState('');
@@ -10,46 +11,55 @@ const Signup: React.FC = () => {
     e.preventDefault();
     try {
       await signup(name, email, password);
-      window.location.href = '/dashboard';
+      alert('Signup successful! Please login.');
+      window.location.href = '/login';
     } catch (error) {
       console.error('Signup failed:', error);
-      alert('Signup failed');
+      alert('Signup failed. Please try again.');
     }
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
+    <div className="card" style={{ maxWidth: '400px', margin: '2rem auto' }}>
+      <h2 className="text-center">Sign Up</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
+        <div className="form-group">
+          <label className="form-label">Name:</label>
           <input
             type="text"
+            className="form-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Email:</label>
+        <div className="form-group">
+          <label className="form-label">Email:</label>
           <input
             type="email"
+            className="form-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className="form-group">
+          <label className="form-label">Password:</label>
           <input
             type="password"
+            className="form-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Signup</button>
+        <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+          Sign Up
+        </button>
       </form>
+      <div className="text-center mt-3">
+        <p>Already have an account? <Link to="/login">Login</Link></p>
+      </div>
     </div>
   );
 };
