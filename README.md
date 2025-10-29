@@ -127,26 +127,29 @@ SlotSwapper is a full-stack web application that allows users to:
 2. Create a new project
 3. Connect your GitHub repository
 4. Configure the project:
-   - Framework: Other
+   - Framework: Create React App
    - Root Directory: Leave as default (root)
-   - Install Command: `npm install`
-   - Build Command: `npm run build`
+   - Install Command: `cd frontend && npm install`
+   - Build Command: `cd frontend && npm run build`
    - Output Directory: `frontend/build`
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
 
 ### Vercel Configuration
-This project now uses a custom build solution that avoids permission issues with react-scripts:
+This project uses explicit install and build commands in vercel.json to handle the frontend in a subdirectory:
 
-1. **Custom Build Script**: A Node.js script (`build-frontend.js`) handles the frontend build process
-2. **Npx Usage**: The build script uses `npx react-scripts build` instead of directly executing the binary
-3. **Vercel Node Builder**: Uses `@vercel/node` builder instead of static build to execute our custom script
+```json
+{
+  "version": 2,
+  "github": {
+    "silent": true
+  },
+  "installCommand": "cd frontend && npm install",
+  "buildCommand": "cd frontend && npm run build"
+}
+```
 
-The solution works by:
-- Using a custom Node.js script that changes to the frontend directory
-- Running the build with `npx` which avoids permission issues with the react-scripts binary
-- Using Vercel's Node.js builder to execute our custom build script
-- Properly routing requests to the built frontend files
+This approach directly specifies the commands to change to the frontend directory and run the necessary npm commands, avoiding the permission issues with react-scripts.
 
 ## Troubleshooting
 
