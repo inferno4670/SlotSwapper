@@ -127,34 +127,26 @@ SlotSwapper is a full-stack web application that allows users to:
 2. Create a new project
 3. Connect your GitHub repository
 4. Configure the project:
-   - Framework: Create React App
+   - Framework: Other
    - Root Directory: Leave as default (root)
-   - Install Command: Leave as default
-   - Build Command: Leave as default
-   - Output Directory: Leave as default
-5. After the project is created, go to the project settings:
-   - Set Environment Variables:
-     - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
-6. Redeploy the project
+   - Install Command: `npm install`
+   - Build Command: `npm run build`
+   - Output Directory: `frontend/build`
+5. Set the following environment variables:
+   - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
 
 ### Vercel Configuration
-This project now uses a minimal `vercel.json` configuration that allows Vercel to automatically detect and configure the project:
+This project now uses a custom build solution that avoids permission issues with react-scripts:
 
-```json
-{
-  "version": 2,
-  "github": {
-    "silent": true
-  }
-}
-```
+1. **Custom Build Script**: A Node.js script (`build-frontend.js`) handles the frontend build process
+2. **Npx Usage**: The build script uses `npx react-scripts build` instead of directly executing the binary
+3. **Vercel Node Builder**: Uses `@vercel/node` builder instead of static build to execute our custom script
 
-The deployment process relies on Vercel's automatic framework detection for Create React App projects. After the initial deployment, you should:
-
-1. Set the environment variables in the Vercel project settings
-2. Redeploy the project to apply the environment variables
-
-This approach avoids custom build configurations that might conflict with Vercel's automatic detection and should resolve the permission issues.
+The solution works by:
+- Using a custom Node.js script that changes to the frontend directory
+- Running the build with `npx` which avoids permission issues with the react-scripts binary
+- Using Vercel's Node.js builder to execute our custom build script
+- Properly routing requests to the built frontend files
 
 ## Troubleshooting
 

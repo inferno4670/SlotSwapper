@@ -4,10 +4,9 @@
   "description": "A peer-to-peer calendar app where users can mark busy slots as swappable and exchange them with other users.",
   "main": "index.js",
   "scripts": {
-    "build": "cd frontend && npm run build",
+    "build": "node build-frontend.js",
     "start": "cd frontend && npm start",
-    "dev": "cd frontend && npm start",
-    "postinstall": "cd frontend && npm install"
+    "dev": "cd frontend && npm start"
   },
   "repository": {
     "type": "git",

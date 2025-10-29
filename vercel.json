@@ -2,5 +2,22 @@
   "version": 2,
   "github": {
     "silent": true
-  }
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "frontend/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/build/$1"
+    }
+  ]
 }
