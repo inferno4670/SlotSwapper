@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { signup } from '../services/authService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signup(name, email, password);
       alert('Signup successful! Please login.');
-      window.location.href = '/login';
+      navigate('/login');
     } catch (error: any) {
       console.error('Signup failed:', error);
       // Check if it's a specific error message from the server
