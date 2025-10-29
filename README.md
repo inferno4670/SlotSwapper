@@ -105,6 +105,7 @@ SlotSwapper is a full-stack web application that allows users to:
    - `NODE_ENV`: production
 5. Set build command: `npm install`
 6. Set start command: `npm start`
+7. Set root directory: `backend`
 
 ### Frontend Deployment (Vercel)
 1. Sign up at https://vercel.com/
@@ -112,9 +113,9 @@ SlotSwapper is a full-stack web application that allows users to:
 3. Connect your GitHub repository
 4. Configure the project:
    - Framework: Create React App
-   - Root Directory: frontend
-   - Build Command: `npm run build`
-   - Output Directory: `build`
+   - Root Directory: Leave as root (not frontend)
+   - Build Command: `cd frontend && npm run build`
+   - Output Directory: `frontend/build`
    - Install Command: `npm install`
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
@@ -123,7 +124,7 @@ SlotSwapper is a full-stack web application that allows users to:
 This project includes a `vercel.json` file that configures the build process for deployment. The configuration ensures that:
 - The frontend is built correctly from the `frontend` directory
 - Static assets are served properly
-- API requests are directed to the backend
+- The build output is directed to the correct directory
 
 ## Known Issues and Assumptions
 

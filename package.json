@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/inferno4670/SlotSwapper/issues"
   },
-  "homepage": "https://github.com/inferno4670/SlotSwapper#readme"
+  "homepage": "https://github.com/inferno4670/SlotSwapper#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
