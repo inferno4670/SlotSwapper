@@ -8,7 +8,7 @@ import Notifications from './components/Notifications';
 import ThemeToggle from './components/ThemeToggle';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [isAuthenticated] = useState(!!localStorage.getItem('token'));
 
   return (
     <Router>
