@@ -129,9 +129,9 @@ SlotSwapper is a full-stack web application that allows users to:
 4. Configure the project:
    - Framework: Create React App
    - Root Directory: Leave as default (root)
-   - Install Command: `cd frontend && npm install`
-   - Build Command: `cd frontend && npm run build`
-   - Output Directory: `frontend/build`
+   - Install Command: Leave as default
+   - Build Command: Leave as default
+   - Output Directory: Leave as default
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
 
@@ -140,14 +140,14 @@ This project includes a `vercel.json` file that configures the build process for
 - The frontend is built correctly from the `frontend` directory
 - Static assets are served properly
 - The build output is directed to the correct directory
-- Install and build commands are explicitly specified
 
 The specific configuration used by Vercel is:
-- **Install Command**: `cd frontend && npm install` (changes to frontend directory and installs dependencies)
-- **Build Command**: `cd frontend && npm run build` (changes to frontend directory and runs build)
-- **Output Directory**: `frontend/build` (where the built files are located)
+- **Build Source**: `frontend/package.json` (points directly to the frontend's package.json)
+- **Builder**: `@vercel/static-build` (uses Vercel's static build system)
+- **Distribution Directory**: `build` (relative to the frontend directory)
+- **Routes**: Configures routing to serve files from the frontend build directory
 
-This approach explicitly changes to the frontend directory before running npm commands, which should resolve the permission issues with react-scripts.
+This approach directly specifies the frontend's package.json as the build source and uses Vercel's static build system, which should avoid the permission issues with react-scripts.
 
 ## Troubleshooting
 
