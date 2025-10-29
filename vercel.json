@@ -11,5 +11,7 @@
         "distDir": "frontend/build"
       }
     }
-  ]
+  ],
+  "installCommand": "npm install",
+  "buildCommand": "cd frontend && npm run build"
 }
