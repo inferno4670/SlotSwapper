@@ -14,6 +14,15 @@ function App() {
     // Check authentication status on app load
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
+    
+    // Listen for storage changes (e.g., logout from another tab)
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('token');
+      setIsAuthenticated(!!token);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   const handleLogout = () => {
