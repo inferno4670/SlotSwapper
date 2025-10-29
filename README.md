@@ -110,10 +110,20 @@ SlotSwapper is a full-stack web application that allows users to:
 1. Sign up at https://vercel.com/
 2. Create a new project
 3. Connect your GitHub repository
-4. Set the following environment variables:
+4. Configure the project:
+   - Framework: Create React App
+   - Root Directory: frontend
+   - Build Command: `npm run build`
+   - Output Directory: `build`
+   - Install Command: `npm install`
+5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
-5. Set build command: `npm run build`
-6. Set output directory: `build`
+
+### Vercel Configuration
+This project includes a `vercel.json` file that configures the build process for deployment. The configuration ensures that:
+- The frontend is built correctly from the `frontend` directory
+- Static assets are served properly
+- API requests are directed to the backend
 
 ## Known Issues and Assumptions
 

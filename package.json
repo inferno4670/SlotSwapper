@@ -1,0 +1,27 @@
+{
+  "name": "slotswapper",
+  "version": "1.0.0",
+  "description": "A peer-to-peer calendar app where users can mark busy slots as swappable and exchange them with other users.",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm start",
+    "dev": "cd frontend && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inferno4670/SlotSwapper.git"
+  },
+  "keywords": [
+    "calendar",
+    "scheduling",
+    "swapping",
+    "peer-to-peer"
+  ],
+  "author": "SlotSwapper Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inferno4670/SlotSwapper/issues"
+  },
+  "homepage": "https://github.com/inferno4670/SlotSwapper#readme"
+}
