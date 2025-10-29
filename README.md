@@ -128,33 +128,40 @@ SlotSwapper is a full-stack web application that allows users to:
 3. Connect your GitHub repository
 4. Configure the project:
    - Framework: Create React App
-   - Root Directory: `frontend`
+   - Root Directory: Leave as default (root)
    - Install Command: `npm install`
    - Build Command: `npm run build`
-   - Output Directory: `build`
+   - Output Directory: `frontend/build`
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
 
 ### Vercel Configuration
-This project now uses a minimal `vercel.json` configuration that allows Vercel to automatically detect and configure the project:
+This project now uses a `vercel.json` configuration that points to the root package.json and uses a custom build process:
 
 ```json
 {
   "version": 2,
   "github": {
     "silent": true
-  }
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/build"
+      }
+    }
+  ]
 }
 ```
 
-When deploying to Vercel, the following settings should be used:
-- **Framework**: Create React App
-- **Root Directory**: `frontend` (explicitly set to the frontend directory)
-- **Install Command**: `npm install`
-- **Build Command**: `npm run build`
-- **Output Directory**: `build`
+The root package.json has been updated with scripts that properly handle the frontend build:
 
-By explicitly setting the Root Directory to `frontend`, Vercel will operate from within the frontend directory and should properly detect and build the Create React App project without permission issues.
+- **build**: `cd frontend && npm run build` (changes to frontend directory and runs the React build)
+- **postinstall**: `cd frontend && npm install` (ensures frontend dependencies are installed)
+
+This approach should resolve the permission issues by using the root package.json scripts instead of trying to run commands directly on the frontend directory.
 
 ## Troubleshooting
 

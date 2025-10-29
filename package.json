@@ -6,7 +6,8 @@
   "scripts": {
     "build": "cd frontend && npm run build",
     "start": "cd frontend && npm start",
-    "dev": "cd frontend && npm start"
+    "dev": "cd frontend && npm start",
+    "postinstall": "cd frontend && npm install"
   },
   "repository": {
     "type": "git",

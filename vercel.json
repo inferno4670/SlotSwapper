@@ -2,5 +2,14 @@
   "version": 2,
   "github": {
     "silent": true
-  }
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/build"
+      }
+    }
+  ]
 }
