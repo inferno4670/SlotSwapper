@@ -129,39 +129,32 @@ SlotSwapper is a full-stack web application that allows users to:
 4. Configure the project:
    - Framework: Create React App
    - Root Directory: Leave as default (root)
-   - Install Command: `npm install`
-   - Build Command: `npm run build`
-   - Output Directory: `frontend/build`
-5. Set the following environment variables:
-   - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
+   - Install Command: Leave as default
+   - Build Command: Leave as default
+   - Output Directory: Leave as default
+5. After the project is created, go to the project settings:
+   - Set Environment Variables:
+     - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
+6. Redeploy the project
 
 ### Vercel Configuration
-This project now uses a `vercel.json` configuration that points to the root package.json and uses a custom build process:
+This project now uses a minimal `vercel.json` configuration that allows Vercel to automatically detect and configure the project:
 
 ```json
 {
   "version": 2,
   "github": {
     "silent": true
-  },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/build"
-      }
-    }
-  ]
+  }
 }
 ```
 
-The root package.json has been updated with scripts that properly handle the frontend build:
+The deployment process relies on Vercel's automatic framework detection for Create React App projects. After the initial deployment, you should:
 
-- **build**: `cd frontend && npm run build` (changes to frontend directory and runs the React build)
-- **postinstall**: `cd frontend && npm install` (ensures frontend dependencies are installed)
+1. Set the environment variables in the Vercel project settings
+2. Redeploy the project to apply the environment variables
 
-This approach should resolve the permission issues by using the root package.json scripts instead of trying to run commands directly on the frontend directory.
+This approach avoids custom build configurations that might conflict with Vercel's automatic detection and should resolve the permission issues.
 
 ## Troubleshooting
 
