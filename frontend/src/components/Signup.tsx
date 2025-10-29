@@ -6,10 +6,12 @@ const Signup: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await signup(name, email, password);
       alert('Signup successful! Please login.');
@@ -22,6 +24,8 @@ const Signup: React.FC = () => {
       } else {
         alert('Signup failed. Please try again.');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,6 +41,7 @@ const Signup: React.FC = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -47,6 +52,7 @@ const Signup: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -57,10 +63,11 @@ const Signup: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
-        <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-          Sign Up
+        <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+          {loading ? 'Signing up...' : 'Sign Up'}
         </button>
       </form>
       <div className="text-center mt-3">

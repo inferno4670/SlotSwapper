@@ -27,14 +27,12 @@ const signup = async (req, res) => {
       passwordHash: password
     });
 
-    // Generate token
-    const token = generateToken(user._id);
-
+    // Don't automatically log in user - they should login separately
     res.status(201).json({
       _id: user._id,
       name: user.name,
-      email: user.email,
-      token
+      email: user.email
+      // Note: No token returned
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

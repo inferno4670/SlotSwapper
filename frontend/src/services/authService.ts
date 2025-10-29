@@ -1,5 +1,4 @@
 import api from './api';
-import { useNavigate } from 'react-router-dom';
 
 // Signup
 export const signup = async (name: string, email: string, password: string) => {
