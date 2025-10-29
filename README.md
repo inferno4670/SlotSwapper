@@ -129,8 +129,8 @@ SlotSwapper is a full-stack web application that allows users to:
 4. Configure the project:
    - Framework: Create React App
    - Root Directory: `frontend`
-   - Install Command: `cd frontend && npm install`
-   - Build Command: `cd frontend && npm run build`
+   - Install Command: `npm install`
+   - Build Command: `npm run build`
    - Output Directory: `build`
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
@@ -142,11 +142,13 @@ This project includes a `vercel.json` file that configures the build process for
 - The build output is directed to the correct directory
 - Install and build commands are explicitly specified
 
-The specific commands used by Vercel are:
-- **Install Command**: `cd frontend && npm install`
-- **Build Command**: `cd frontend && npm run build`
+The specific configuration used by Vercel is:
+- **Root Directory**: `frontend` (changes Vercel's working directory)
+- **Install Command**: `npm install`
+- **Build Command**: `npm run build`
 - **Output Directory**: `build`
-- **Root Directory**: `frontend`
+
+Using `rootDirectory` is the recommended approach for projects with frontend code in a subdirectory, as it changes Vercel's working directory to the specified folder before running any commands.
 
 ## Troubleshooting
 
