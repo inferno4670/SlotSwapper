@@ -125,6 +125,7 @@ SlotSwapper is a full-stack web application that allows users to:
 5. Set build command: `npm install`
 6. Set start command: `npm start`
 7. Set root directory: `backend`
+8. Note the deployed URL (it will be something like `https://your-backend-app-name.onrender.com`)
 
 ### Frontend Deployment (Vercel)
 1. Sign up at https://vercel.com/
@@ -137,13 +138,13 @@ SlotSwapper is a full-stack web application that allows users to:
    - Build Command: `cd frontend && npm run build`
    - Output Directory: `frontend/build`
 5. Set the following environment variables:
-   - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
+   - `REACT_APP_API_URL`: Your deployed backend URL (e.g., `https://your-backend-app-name.onrender.com/api`)
 
 ### Environment Variables Setup
 
 **For Production Deployment:**
 - In your frontend Vercel project settings, add the environment variable:
-  - `REACT_APP_API_URL` = `https://your-render-app-name.onrender.com/api`
+  - `REACT_APP_API_URL` = `https://your-backend-app-name.onrender.com/api` (replace with your actual Render backend URL)
 - In your backend Render project settings, add the environment variables:
   - `MONGO_URI` = your MongoDB connection string
   - `JWT_SECRET` = your generated secret key
@@ -213,6 +214,12 @@ If authentication is failing:
 2. **Backend Not Running**: The backend server is not started or accessible
 3. **Network Issues**: Firewall or network configuration blocking requests
 4. **CORS Issues**: Backend not properly configured to accept requests from frontend origin
+
+### Network Error Troubleshooting:
+1. **Check API URL**: Make sure `REACT_APP_API_URL` points to the correct backend URL
+2. **Verify Backend**: Ensure the backend server is running and accessible
+3. **Network Connectivity**: Check if there are any firewall or network issues
+4. **Local vs Production**: Use `http://localhost:5000/api` for local development and your Render URL for production
 
 ## Known Issues and Assumptions
 

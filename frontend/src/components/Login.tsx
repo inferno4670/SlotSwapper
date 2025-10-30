@@ -15,11 +15,17 @@ const Login: React.FC = () => {
     } catch (error: any) {
       console.error('Login failed:', error);
       // Check if it's a specific error message from the server
-      if (error.response && error.response.data && error.response.data.message) {
+      let errorMessage = 'Login failed. Please try again.';
+      
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error: Unable to connect to the server. Please check your internet connection and ensure the backend is running.';
+      } else if (error.response && error.response.data && error.response.data.message) {
         alert(`Login failed: ${error.response.data.message}`);
       } else {
         alert('Login failed. Please check your credentials.');
       }
+      
+      alert(errorMessage);
     }
   };
 

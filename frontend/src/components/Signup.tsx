@@ -32,7 +32,9 @@ const Signup: React.FC = () => {
       // Check if it's a specific error message from the server
       let errorMessage = 'Signup failed. Please try again.';
       
-      if (error.response) {
+      if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error: Unable to connect to the server. Please check your internet connection and ensure the backend is running.';
+      } else if (error.response) {
         // Server responded with error status
         if (error.response.data && error.response.data.message) {
           errorMessage = `Signup failed: ${error.response.data.message}`;
@@ -59,8 +61,11 @@ const Signup: React.FC = () => {
       <h2 className="text-center">Sign Up</h2>
       
       {apiStatus === 'failed' && (
-        <div className="alert alert-warning" style={{ marginBottom: '1rem' }}>
+        <div className="alert alert-warning" style={{ marginBottom: '1rem', padding: '0.75rem', borderRadius: '4px', backgroundColor: '#fff3cd', border: '1px solid #ffeaa7', color: '#856404' }}>
           <strong>Warning:</strong> Unable to connect to the API. Please check your network connection and API configuration.
+          <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>
+            Current API URL: {process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}
+          </div>
         </div>
       )}
       
