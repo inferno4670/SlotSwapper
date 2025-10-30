@@ -149,11 +149,11 @@ SlotSwapper is a full-stack web application that allows users to:
   - `JWT_SECRET` = your generated secret key
 
 **For Local Development:**
-- In `frontend/.env`:
+- Create `frontend/.env` with:
   ```
   REACT_APP_API_URL=http://localhost:5000/api
   ```
-- In `backend/.env`:
+- Create `backend/.env` with:
   ```
   MONGO_URI=your_mongodb_connection_string
   JWT_SECRET=your_jwt_secret
@@ -206,6 +206,13 @@ If authentication is failing:
 2. Check that the backend is running and accessible
 3. Verify network connectivity between frontend and backend
 4. Check browser console for CORS or network errors
+5. For 404 errors specifically, verify the API endpoint URLs are correct
+
+### Common 404 Error Causes:
+1. **Incorrect API URL**: The `REACT_APP_API_URL` environment variable is not set or is incorrect
+2. **Backend Not Running**: The backend server is not started or accessible
+3. **Network Issues**: Firewall or network configuration blocking requests
+4. **CORS Issues**: Backend not properly configured to accept requests from frontend origin
 
 ## Known Issues and Assumptions
 
