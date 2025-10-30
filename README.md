@@ -144,7 +144,9 @@ SlotSwapper is a full-stack web application that allows users to:
 
 **For Production Deployment:**
 - In your frontend Vercel project settings, add the environment variable:
-  - `REACT_APP_API_URL` = `https://your-backend-app-name.onrender.com/api` (replace with your actual Render backend URL)
+  - `REACT_APP_API_URL` = `https://your-backend-app-name.onrender.com/api` 
+  - **IMPORTANT**: This should be your Render BACKEND URL, not your Vercel frontend URL
+  - The URL should end with `/api`
 - In your backend Render project settings, add the environment variables:
   - `MONGO_URI` = your MongoDB connection string
   - `JWT_SECRET` = your generated secret key
@@ -209,17 +211,16 @@ If authentication is failing:
 4. Check browser console for CORS or network errors
 5. For 404 errors specifically, verify the API endpoint URLs are correct
 
-### Common 404 Error Causes:
-1. **Incorrect API URL**: The `REACT_APP_API_URL` environment variable is not set or is incorrect
-2. **Backend Not Running**: The backend server is not started or accessible
-3. **Network Issues**: Firewall or network configuration blocking requests
-4. **CORS Issues**: Backend not properly configured to accept requests from frontend origin
+### CORS Error Troubleshooting:
+1. **Wrong API URL**: Make sure `REACT_APP_API_URL` points to your BACKEND URL, not your frontend URL
+2. **Missing CORS Headers**: Ensure your backend is configured to accept requests from your frontend origin
+3. **URL Format**: The API URL should end with `/api` (e.g., `https://your-backend.onrender.com/api`)
 
 ### Network Error Troubleshooting:
 1. **Check API URL**: Make sure `REACT_APP_API_URL` points to the correct backend URL
 2. **Verify Backend**: Ensure the backend server is running and accessible
 3. **Network Connectivity**: Check if there are any firewall or network issues
-4. **Local vs Production**: Use `http://localhost:5000/api` for local development and your Render URL for production
+4. **Local vs Production**: Use `http://localhost:5000/api` for local development and your Render backend URL for production
 
 ## Known Issues and Assumptions
 
