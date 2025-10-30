@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { signup } from '../services/authService';
+import React, { useState, useEffect } from 'react';
+import { signup, testApiConnection } from '../services/authService';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Signup: React.FC = () => {
@@ -7,7 +7,18 @@ const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [apiStatus, setApiStatus] = useState<'unknown' | 'success' | 'failed'>('unknown');
   const navigate = useNavigate();
+
+  // Test API connection on component mount
+  useEffect(() => {
+    const testConnection = async () => {
+      const isConnected = await testApiConnection();
+      setApiStatus(isConnected ? 'success' : 'failed');
+    };
+    
+    testConnection();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +42,7 @@ const Signup: React.FC = () => {
       } else if (error.request) {
         // Request was made but no response received
         errorMessage = 'Network error. Please check your connection and try again.';
+        console.error('API base URL was:', process.env.REACT_APP_API_URL || 'http://localhost:5000/api');
       } else {
         // Something else happened
         errorMessage = error.message || errorMessage;
@@ -45,6 +57,13 @@ const Signup: React.FC = () => {
   return (
     <div className="card" style={{ maxWidth: '400px', margin: '2rem auto' }}>
       <h2 className="text-center">Sign Up</h2>
+      
+      {apiStatus === 'failed' && (
+        <div className="alert alert-warning" style={{ marginBottom: '1rem' }}>
+          <strong>Warning:</strong> Unable to connect to the API. Please check your network connection and API configuration.
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label className="form-label">Name:</label>

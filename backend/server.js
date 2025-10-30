@@ -25,13 +25,30 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://your-vercel-frontend-url.vercel.app'] // Add your actual frontend URL here
+    : ['http://localhost:3000', 'http://localhost:5000'],
+  credentials: true
+}));
 app.use(express.json());
+
+// Add a logging middleware to see all incoming requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', protect, eventRoutes);
 app.use('/api', protect, swapRoutes);
+
+// Add a test endpoint to verify the API is working
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is working correctly' });
+});
+
 app.get('/', (req, res) => {
   res.send('SlotSwapper Backend API');
 });
@@ -45,6 +62,16 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
   });
 }
+
+// Add a 404 handler for debugging
+app.use('*', (req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    message: `Route not found: ${req.originalUrl}`,
+    method: req.method,
+    url: req.originalUrl
+  });
+});
 
 // Start server and log the actual port it's listening on
 const server = app.listen(PORT, () => {
