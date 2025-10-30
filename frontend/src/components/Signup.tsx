@@ -19,11 +19,24 @@ const Signup: React.FC = () => {
     } catch (error: any) {
       console.error('Signup failed:', error);
       // Check if it's a specific error message from the server
-      if (error.response && error.response.data && error.response.data.message) {
-        alert(`Signup failed: ${error.response.data.message}`);
+      let errorMessage = 'Signup failed. Please try again.';
+      
+      if (error.response) {
+        // Server responded with error status
+        if (error.response.data && error.response.data.message) {
+          errorMessage = `Signup failed: ${error.response.data.message}`;
+        } else {
+          errorMessage = `Signup failed with status ${error.response.status}`;
+        }
+      } else if (error.request) {
+        // Request was made but no response received
+        errorMessage = 'Network error. Please check your connection and try again.';
       } else {
-        alert('Signup failed. Please try again.');
+        // Something else happened
+        errorMessage = error.message || errorMessage;
       }
+      
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -64,7 +77,9 @@ const Signup: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
             disabled={loading}
+            minLength={6}
           />
+          <small className="form-text text-muted">Password must be at least 6 characters</small>
         </div>
         <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
           {loading ? 'Signing up...' : 'Sign Up'}

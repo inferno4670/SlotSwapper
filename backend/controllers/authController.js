@@ -20,11 +20,11 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create user
+    // Create user - properly hash the password
     const user = await User.create({
       name,
       email,
-      passwordHash: password
+      passwordHash: password // This will be hashed by the pre-save middleware
     });
 
     // Don't automatically log in user - they should login separately
@@ -35,6 +35,7 @@ const signup = async (req, res) => {
       // Note: No token returned
     });
   } catch (error) {
+    console.error('Signup error:', error); // Add logging for debugging
     res.status(500).json({ message: error.message });
   }
 };
@@ -66,6 +67,7 @@ const login = async (req, res) => {
       token
     });
   } catch (error) {
+    console.error('Login error:', error); // Add logging for debugging
     res.status(500).json({ message: error.message });
   }
 };

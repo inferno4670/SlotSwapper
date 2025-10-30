@@ -43,7 +43,6 @@ SlotSwapper is a full-stack web application that allows users to:
 3. Create a `.env` file with the following variables:
    ```
    MONGO_URI=your_mongodb_connection_string
-   PORT=5000
    JWT_SECRET=your_jwt_secret
    ```
 
@@ -63,7 +62,12 @@ SlotSwapper is a full-stack web application that allows users to:
    npm install
    ```
 
-3. Start the development server:
+3. For development, create a `.env` file in the frontend directory with:
+   ```
+   REACT_APP_API_URL=http://localhost:5000/api
+   ```
+
+4. Start the development server:
    ```
    npm start
    ```
@@ -135,6 +139,26 @@ SlotSwapper is a full-stack web application that allows users to:
 5. Set the following environment variables:
    - `REACT_APP_API_URL`: Your deployed backend URL (e.g., https://your-app.onrender.com/api)
 
+### Environment Variables Setup
+
+**For Production Deployment:**
+- In your frontend Vercel project settings, add the environment variable:
+  - `REACT_APP_API_URL` = `https://your-render-app-name.onrender.com/api`
+- In your backend Render project settings, add the environment variables:
+  - `MONGO_URI` = your MongoDB connection string
+  - `JWT_SECRET` = your generated secret key
+
+**For Local Development:**
+- In `frontend/.env`:
+  ```
+  REACT_APP_API_URL=http://localhost:5000/api
+  ```
+- In `backend/.env`:
+  ```
+  MONGO_URI=your_mongodb_connection_string
+  JWT_SECRET=your_jwt_secret
+  ```
+
 ### Vercel Configuration
 This project uses explicit install and build commands in vercel.json to handle the frontend in a subdirectory:
 
@@ -168,6 +192,20 @@ If the frontend build fails:
 3. Verify environment variables are set correctly
 4. Make sure the install and build commands are correct
 5. Confirm the `frontend` directory exists and contains the React application
+
+### Render Deployment Issues
+If the backend fails to deploy:
+1. Check that all required environment variables are set in Render
+2. Verify the MongoDB connection string is correct
+3. Ensure the PORT environment variable is not hardcoded in your .env file
+4. Check the logs in Render for specific error messages
+
+### Signup/Login Issues
+If authentication is failing:
+1. Ensure the backend API URL is correctly set in the frontend environment variables
+2. Check that the backend is running and accessible
+3. Verify network connectivity between frontend and backend
+4. Check browser console for CORS or network errors
 
 ## Known Issues and Assumptions
 
